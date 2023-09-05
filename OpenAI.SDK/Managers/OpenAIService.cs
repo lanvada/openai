@@ -35,16 +35,17 @@ public partial class OpenAIService : IOpenAIService, IDisposable
 
         _httpClient.BaseAddress = new Uri(settings.BaseDomain);
 
-        switch (settings.ProviderType)
-        {
-            case ProviderType.Azure:
-                _httpClient.DefaultRequestHeaders.Add("api-key", settings.ApiKey);
-                break;
-            case ProviderType.OpenAI:
-            default:
-                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {settings.ApiKey}");
-                break;
-        }
+        // switch (settings.ProviderType)
+        // {
+        //     case ProviderType.Azure:
+        //         _httpClient.DefaultRequestHeaders.Add("api-key", settings.ApiKey);
+        //         break;
+        //     case ProviderType.OpenAI:
+        //     default:
+        //         _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {settings.ApiKey}");
+        //         break;
+        // }
+        _httpClient.DefaultRequestHeaders.Add("X-Access-Code", $"Bearer {settings.AccessCode}");
 
         if (!string.IsNullOrEmpty(settings.Organization))
         {

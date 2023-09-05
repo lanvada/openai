@@ -45,15 +45,20 @@ public class OpenAIOptions
     /// </summary>
     public string? Organization { get; set; }
 
+    // /// <summary>
+    // ///     The OpenAI API uses API keys for authentication. Visit your
+    // ///     <a href="https://platform.openai.com/account/api-keys">API Keys page</a> to retrieve the API key you'll use in
+    // ///     your requests.
+    // ///     Remember that your API key is a secret! Do not share it with others or expose it in any client-side code(browsers,
+    // ///     apps). Production requests must be routed through your own backend server where your API key can be securely loaded
+    // ///     from an environment variable or key management service.
+    // /// </summary>
+    // public string ApiKey { get; set; } = null!;
+
     /// <summary>
-    ///     The OpenAI API uses API keys for authentication. Visit your
-    ///     <a href="https://platform.openai.com/account/api-keys">API Keys page</a> to retrieve the API key you'll use in
-    ///     your requests.
-    ///     Remember that your API key is a secret! Do not share it with others or expose it in any client-side code(browsers,
-    ///     apps). Production requests must be routed through your own backend server where your API key can be securely loaded
-    ///     from an environment variable or key management service.
+    /// 
     /// </summary>
-    public string ApiKey { get; set; } = null!;
+    public string AccessCode { get; set; } = string.Empty;
 
     /// <summary>
     ///     Default Api Version
@@ -126,16 +131,16 @@ public class OpenAIOptions
     /// <param name="resourceName">Resource Name of your Azure OpenAI resource</param>
     /// <param name="deploymentId">The id of your deployment of OpenAI</param>
     /// <param name="apiVersion">The azure open ai api version</param>
-    /// <param name="apiKey">Token used for authentication</param>
+    /// <param name="accessCode">Token used for authentication</param>
     /// <returns>A valid OpenAISettings instance configured with the method inputs</returns>
-    private static OpenAIOptions CreateAzureSettings(string apiKey, string deploymentId, string resourceName, string? apiVersion)
+    private static OpenAIOptions CreateAzureSettings(string accessCode, string deploymentId, string resourceName, string? apiVersion)
     {
         return new OpenAIOptions
         {
             ProviderType = ProviderType.Azure,
             ResourceName = resourceName,
             DeploymentId = deploymentId,
-            ApiKey = apiKey,
+            AccessCode = accessCode,
             ApiVersion = apiVersion ?? AzureOpenAIDefaultApiVersion
         };
     }
@@ -146,16 +151,16 @@ public class OpenAIOptions
     /// <param name="deploymentId">The id of your deployment of OpenAI</param>
     /// <param name="baseDomain">Base Domain of your Azure OpenAI service</param>
     /// <param name="apiVersion">The azure open ai api version</param>
-    /// <param name="apiKey">Token used for authentication</param>
+    /// <param name="accessCode">Token used for authentication</param>
     /// <returns>A valid OpenAISettings instance configured with the method inputs</returns>
-    private static OpenAIOptions CreateAzureSettingsWithBaseDomain(string apiKey, string deploymentId, string baseDomain, string? apiVersion)
+    private static OpenAIOptions CreateAzureSettingsWithBaseDomain(string accessCode, string deploymentId, string baseDomain, string? apiVersion)
     {
         return new OpenAIOptions
         {
             ProviderType = ProviderType.Azure,
             BaseDomain = baseDomain,
             DeploymentId = deploymentId,
-            ApiKey = apiKey,
+            AccessCode = accessCode,
             ApiVersion = apiVersion ?? AzureOpenAIDefaultApiVersion
         };
     }
@@ -171,9 +176,9 @@ public class OpenAIOptions
             return;
         }
 
-        if (string.IsNullOrEmpty(ApiKey))
+        if (string.IsNullOrEmpty(AccessCode))
         {
-            throw new ArgumentNullException(nameof(ApiKey));
+            throw new ArgumentNullException(nameof(AccessCode));
         }
 
         if (string.IsNullOrEmpty(ApiVersion))
