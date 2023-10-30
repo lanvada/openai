@@ -94,9 +94,9 @@ public partial class OpenAIService : IChatCompletionService
     /// </summary>
     private class ReassemblyContext
     {
-        private FunctionCall? FnCall;
+        private FunctionCall? _fnCall;
 
-        public bool IsFnAssemblyActive => FnCall != null;
+        public bool IsFnAssemblyActive => _fnCall != null;
 
 
         /// <summary>
@@ -124,7 +124,7 @@ public partial class OpenAIService : IChatCompletionService
             {
                 if (firstChoice.Message != null)
                 {
-                    FnCall = firstChoice.Message.FunctionCall;
+                    _fnCall = firstChoice.Message.FunctionCall;
                     firstChoice.Message.FunctionCall = null;
                     justStarted = true;
                 }
@@ -134,9 +134,9 @@ public partial class OpenAIService : IChatCompletionService
             // (Skip the first one, because it was already processed in the block above)
             if (IsFnAssemblyActive && !justStarted)
             {
-                if (FnCall != null)
+                if (_fnCall != null)
                 {
-                    FnCall.Arguments += ExtractArgsSoFar();
+                    _fnCall.Arguments += ExtractArgsSoFar();
                 }
             }
 
@@ -144,8 +144,8 @@ public partial class OpenAIService : IChatCompletionService
             if (IsFnAssemblyActive && !isStreamingFnCall)
             {
                 firstChoice.Message ??= ChatMessage.FromAssistant(""); // just in case? not sure it's needed
-                firstChoice.Message.FunctionCall = FnCall;
-                FnCall = null;
+                firstChoice.Message.FunctionCall = _fnCall;
+                _fnCall = null;
             }
 
             // Returns true if we're actively streaming, and also have a partial function call in the response

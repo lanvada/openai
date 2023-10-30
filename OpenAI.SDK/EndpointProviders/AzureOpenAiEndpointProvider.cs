@@ -8,15 +8,17 @@ internal class AzureOpenAIEndpointProvider : IOpenAIEndpointProvider
     private const string ApiPrefix = "openai";
     private readonly string _apiVersion;
     private readonly string _deploymentId;
+    private readonly string _proxyPath;
 
 
-    public AzureOpenAIEndpointProvider(string apiVersion, string deploymentId)
+    public AzureOpenAIEndpointProvider(string apiVersion, string deploymentId, string? proxyPath = null)
     {
         _apiVersion = apiVersion;
         _deploymentId = deploymentId;
+        _proxyPath = proxyPath ?? "";
     }
 
-    private string Prefix => $"/{ApiPrefix}/{DeploymentsPrefix}/{WebUtility.UrlEncode(_deploymentId)}";
+    private string Prefix => $"/{_proxyPath}/{ApiPrefix}/{DeploymentsPrefix}/{WebUtility.UrlEncode(_deploymentId)}";
     private string QueryString => $"?api-version={_apiVersion}";
 
 

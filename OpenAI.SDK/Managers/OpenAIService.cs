@@ -54,8 +54,8 @@ public partial class OpenAIService : IOpenAIService, IDisposable
 
         _endpointProvider = settings.ProviderType switch
         {
-            ProviderType.Azure => new AzureOpenAIEndpointProvider(settings.ApiVersion, settings.DeploymentId!),
-            _ => new OpenAIEndpointProvider(settings.ApiVersion)
+            ProviderType.Azure => new AzureOpenAIEndpointProvider(settings.ApiVersion, settings.DeploymentId!, settings.ProxyPath),
+            _ => new OpenAIEndpointProvider(settings.ApiVersion, settings.ProxyPath)
         };
 
         _defaultModelId = settings.DefaultModelId;

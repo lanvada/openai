@@ -13,7 +13,17 @@ public enum ProviderType
     /// <summary>
     ///     Azure Provider
     /// </summary>
-    Azure = 2
+    Azure = 2,
+
+    /// <summary>
+    /// 
+    /// </summary>
+    OpenAIProxy = 3,
+
+    /// <summary>
+    /// 
+    /// </summary>
+    AzureProxy = 4
 }
 
 public class OpenAIOptions
@@ -78,6 +88,11 @@ public class OpenAIOptions
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public string? ProxyPath { get; set; }
+
+    /// <summary>
     ///     Base Domain
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -133,7 +148,8 @@ public class OpenAIOptions
     /// <param name="apiVersion">The azure open ai api version</param>
     /// <param name="accessCode">Token used for authentication</param>
     /// <returns>A valid OpenAISettings instance configured with the method inputs</returns>
-    private static OpenAIOptions CreateAzureSettings(string accessCode, string deploymentId, string resourceName, string? apiVersion)
+    private static OpenAIOptions CreateAzureSettings(string accessCode, string deploymentId, string resourceName,
+        string? apiVersion)
     {
         return new OpenAIOptions
         {
@@ -153,7 +169,8 @@ public class OpenAIOptions
     /// <param name="apiVersion">The azure open ai api version</param>
     /// <param name="accessCode">Token used for authentication</param>
     /// <returns>A valid OpenAISettings instance configured with the method inputs</returns>
-    private static OpenAIOptions CreateAzureSettingsWithBaseDomain(string accessCode, string deploymentId, string baseDomain, string? apiVersion)
+    private static OpenAIOptions CreateAzureSettingsWithBaseDomain(string accessCode, string deploymentId,
+        string baseDomain, string? apiVersion)
     {
         return new OpenAIOptions
         {
@@ -212,12 +229,16 @@ public class OpenAIOptions
         {
             if (!string.IsNullOrEmpty(DeploymentId))
             {
-                throw new ArgumentException(nameof(DeploymentId) + " is not supported for OpenAI Provider. Set ProviderType to Azure or remove " + nameof(DeploymentId));
+                throw new ArgumentException(nameof(DeploymentId) +
+                                            " is not supported for OpenAI Provider. Set ProviderType to Azure or remove " +
+                                            nameof(DeploymentId));
             }
 
             if (!string.IsNullOrEmpty(ResourceName))
             {
-                throw new ArgumentException(nameof(ResourceName) + " is not supported for OpenAI Provider. Set ProviderType to Azure or remove " + nameof(ResourceName));
+                throw new ArgumentException(nameof(ResourceName) +
+                                            " is not supported for OpenAI Provider. Set ProviderType to Azure or remove " +
+                                            nameof(ResourceName));
             }
         }
     }

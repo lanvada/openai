@@ -1,52 +1,58 @@
-﻿namespace OpenAI.EndpointProviders;
+﻿using System.Net;
+
+namespace OpenAI.EndpointProviders;
 
 internal class OpenAIEndpointProvider : IOpenAIEndpointProvider
 {
     private readonly string _apiVersion;
+    private readonly string _proxyPath;
 
-    public OpenAIEndpointProvider(string apiVersion)
+    public OpenAIEndpointProvider(string apiVersion, string? proxyPath = null)
     {
         _apiVersion = apiVersion;
+        _proxyPath = proxyPath ?? "";
     }
+
+    private string Prefix => $"/{_proxyPath}/{_apiVersion}";
 
     public string ModelRetrieve(string model)
     {
-        return $"/{_apiVersion}/models/{model}";
+        return $"{Prefix}/models/{model}";
     }
 
     public string FileDelete(string fileId)
     {
-        return $"/{_apiVersion}/files/{fileId}";
+        return $"{Prefix}/files/{fileId}";
     }
 
     public string CompletionCreate()
     {
-        return $"/{_apiVersion}/completions";
+        return $"{Prefix}/completions";
     }
 
     public string ChatCompletionCreate()
     {
-        return $"/{_apiVersion}/chat/completions";
+        return $"{Prefix}/chat/completions";
     }
 
     public string AudioCreateTranscription()
     {
-        return $"/{_apiVersion}/audio/transcriptions";
+        return $"{Prefix}/audio/transcriptions";
     }
 
     public string AudioCreateTranslation()
     {
-        return $"/{_apiVersion}/audio/translations";
+        return $"{Prefix}/audio/translations";
     }
 
     public string EditCreate()
     {
-        return $"/{_apiVersion}/edits";
+        return $"{Prefix}/edits";
     }
 
     public string ModelsList()
     {
-        return $"/{_apiVersion}/models";
+        return $"{Prefix}/models";
     }
 
     public string FilesList()
@@ -61,71 +67,71 @@ internal class OpenAIEndpointProvider : IOpenAIEndpointProvider
 
     public string FileRetrieve(string fileId)
     {
-        return $"/{_apiVersion}/files/{fileId}";
+        return $"{Prefix}/files/{fileId}";
     }
 
     public string FileRetrieveContent(string fileId)
     {
-        return $"/{_apiVersion}/files/{fileId}/content";
+        return $"{Prefix}/files/{fileId}/content";
     }
 
     public string FineTuneCreate()
     {
-        return $"/{_apiVersion}/fine-tunes";
+        return $"{Prefix}/fine-tunes";
     }
 
     public string FineTuneList()
     {
-        return $"/{_apiVersion}/fine-tunes";
+        return $"{Prefix}/fine-tunes";
     }
 
     public string FineTuneRetrieve(string fineTuneId)
     {
-        return $"/{_apiVersion}/fine-tunes/{fineTuneId}";
+        return $"{Prefix}/fine-tunes/{fineTuneId}";
     }
 
     public string FineTuneCancel(string fineTuneId)
     {
-        return $"/{_apiVersion}/fine-tunes/{fineTuneId}/cancel";
+        return $"{Prefix}/fine-tunes/{fineTuneId}/cancel";
     }
 
     public string FineTuneListEvents(string fineTuneId)
     {
-        return $"/{_apiVersion}/fine-tunes/{fineTuneId}/events";
+        return $"{Prefix}/fine-tunes/{fineTuneId}/events";
     }
 
     public string FineTuneDelete(string fineTuneId)
     {
-        return $"/{_apiVersion}/models/{fineTuneId}";
+        return $"{Prefix}/models/{fineTuneId}";
     }
 
     public string EmbeddingCreate()
     {
-        return $"/{_apiVersion}/embeddings";
+        return $"{Prefix}/embeddings";
     }
 
     public string ModerationCreate()
     {
-        return $"/{_apiVersion}/moderations";
+        return $"{Prefix}/moderations";
     }
 
     public string ImageCreate()
     {
-        return $"/{_apiVersion}/images/generations";
+        return $"{Prefix}/images/generations";
     }
 
     public string ImageEditCreate()
     {
-        return $"/{_apiVersion}/images/edits";
+        return $"{Prefix}/images/edits";
     }
 
     public string ImageVariationCreate()
     {
-        return $"/{_apiVersion}/images/variations";
+        return $"{Prefix}/images/variations";
     }
 
     private string Files()
     {
-        return $"/{_apiVersion}/files";
+        return $"{Prefix}/files";
     }
 }
