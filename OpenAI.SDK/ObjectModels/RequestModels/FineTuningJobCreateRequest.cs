@@ -4,7 +4,7 @@ using OpenAI.ObjectModels.SharedModels;
 
 namespace OpenAI.ObjectModels.RequestModels;
 
-public record FineTuningJobCreateRequest : IOpenAiModels.IModel
+public record FineTuningJobCreateRequest : IOpenAIModels.IModel
 {
     /// <summary>
     ///     The ID of an uploaded file that contains training data.

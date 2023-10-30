@@ -3,7 +3,7 @@ using OpenAI.ObjectModels.SharedModels;
 
 namespace OpenAI.ObjectModels.ResponseModels.FineTuningJobResponseModels;
 
-public record FineTuningJobResponse : BaseResponse, IOpenAiModels.IId, IOpenAiModels.IModel, IOpenAiModels.ICreatedAt
+public record FineTuningJobResponse : BaseResponse, IOpenAIModels.IId, IOpenAIModels.IModel, IOpenAIModels.ICreatedAt
 {
     /// <summary>
     ///     The Unix timestamp (in seconds) for when the fine-tuning job was finished. The value will be null if the

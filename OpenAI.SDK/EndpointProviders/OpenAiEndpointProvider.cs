@@ -103,17 +103,17 @@ internal class OpenAIEndpointProvider : IOpenAIEndpointProvider
 
     public string FineTuneDelete(string fineTuneId)
     {
-        return $"{_apiVersion}/models/{fineTuneId}";
+        return $"{Prefix}/models/{fineTuneId}";
     }
 
     public string FineTuningJobCreate()
     {
-        return $"{_apiVersion}/fine_tuning/jobs";
+        return $"{Prefix}/fine_tuning/jobs";
     }
 
     public string FineTuningJobList(FineTuningJobListRequest? fineTuningJobListRequest)
     {
-        var url = $"{_apiVersion}/fine_tuning/jobs";
+        var url = $"{Prefix}/fine_tuning/jobs";
         if (fineTuningJobListRequest != null)
         {
             var queryParams = new List<string>();
@@ -130,22 +130,22 @@ internal class OpenAIEndpointProvider : IOpenAIEndpointProvider
 
     public string FineTuningJobRetrieve(string fineTuningJobId)
     {
-        return $"{_apiVersion}/fine_tuning/jobs/{fineTuningJobId}";
+        return $"{Prefix}/fine_tuning/jobs/{fineTuningJobId}";
     }
 
     public string FineTuningJobCancel(string fineTuningJobId)
     {
-        return $"{_apiVersion}/fine_tuning/jobs/{fineTuningJobId}/cancel";
+        return $"{Prefix}/fine_tuning/jobs/{fineTuningJobId}/cancel";
     }
 
     public string FineTuningJobListEvents(string fineTuningJobId)
     {
-        return $"{_apiVersion}/fine_tuning/jobs/{fineTuningJobId}/events";
+        return $"{Prefix}/fine_tuning/jobs/{fineTuningJobId}/events";
     }
 
     public string ModelsDelete(string modelId)
     {
-        return $"{_apiVersion}/models/{modelId}";
+        return $"{Prefix}/models/{modelId}";
     }
 
     public string EmbeddingCreate()
