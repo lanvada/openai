@@ -13,7 +13,8 @@ Dotnet SDK for OpenAI Chat GPT, Whisper, GPT-4 ,GPT-3 and DALL·E
 #### This library used be to known as `Betalgo.OpenAI.GPT3`, now it has a new package Id `Betalgo.OpenAI`.
 
 ## Checkout the wiki page: 
-https://github.com/betalgo/openai/wiki
+https://github.com/betalgo/openai/wiki  
+or  [![Static Badge](https://img.shields.io/badge/API%20Docs-RobiniaDocs-43bc00?logo=readme&logoColor=white)](https://www.robiniadocs.com/d/betalgo-openai/api/OpenAI.ObjectModels.RequestModels.ChatMessage.html)
 ## Checkout new ***experimantal*** utilities library:
 [![Betalgo.OpenAI.Utilities](https://img.shields.io/nuget/v/Betalgo.OpenAI.Utilities?style=for-the-badge)](https://www.nuget.org/packages/Betalgo.OpenAI.Utilities/)
 ```
@@ -38,6 +39,7 @@ Maintenance of this project is made possible by all the bug reporters, [contribu
 - [x] [Edit](https://github.com/betalgo/openai/wiki/Edit) 
 - [x] [Embeddings](https://github.com/betalgo/openai/wiki/Embeddings) 
 - [x] [Files](https://github.com/betalgo/openai/wiki/Files) 
+- [x] [Chatgpt Fine-Tuning](https://github.com/betalgo/openai/wiki/Chatgpt-Fine-Tuning) 
 - [x] [Fine-tunes](https://github.com/betalgo/openai/wiki/Fine-Tuning)
 - [x] [Moderation](https://github.com/betalgo/openai/wiki/Moderation)
 - [x] [Tokenizer-GPT3](https://github.com/betalgo/openai/wiki/Tokenizer)
@@ -222,6 +224,20 @@ I will always be using the latest libraries, and future releases will frequently
 I am incredibly busy. If I forgot your name, please accept my apologies and let me know so I can add it to the list.
 
 ## Changelog
+### Version 7.3.1
+- **Reverting a breking change which will be also Breaking Changes(only for 7.3.0):**
+    - Reverting the usage of `EnsureStatusCode()` which caused the loss of error information. Initially, I thought it would help in implementing HTTP retry tools, but now I believe it is a bad idea for two reasons.
+        1. You can't simply retry if the request wasn't successful because it could fail for various reasons. For example, you might have used too many tokens in your request, causing OpenAI to reject the response, or you might have tried to use a nonexistent model. It would be better to use the Error object in your retry rules. All responses are already derived from this base object.
+        2. We will lose error response data.
+### Version 7.3.0
+- Updated Moderation categories as reported by @dmki.
+- **Breaking Changes:**
+    - Introduced the use of `EnsureStatusCode()` after making requests.Please adjust your code accordingly for handling failure cases. Thanks to @miroljub1995 for reporting.
+    - Previously, we used to override paths in the base domain, but this behavior has now changed. If you were using `abc.com/mypath` as the base domain, we used to ignore `/mypath`. This will no longer be the case, and the code will now respect `/mypath`. Thanks to @Hzw576816 for reporting.
+### 7.2.0
+- Added Chatgpt Finetununig support thanks to @aghimir3 
+- Default Azure Openai version increased thanks to @mac8005
+- Fixed Azure Openai Audio endpoint thanks to @mac8005
 ### 7.1.5
 - Added error handling for PlatformNotSupportedException in PostAsStreamAsync when using HttpClient.Send, now falls back to SendRequestPreNet6 for compatibility on platforms like MAUI, Mac. Thanks to  @Almis90
 - We now have a function caller describe method that automatically generates function descriptions. This method is available in the utilities library. Thanks to @vbandi
@@ -245,9 +261,9 @@ I am incredibly busy. If I forgot your name, please accept my apologies and let 
   - The order of the OpenAI constructor parameters has changed. It now takes 'options' first, then 'httpclient'.
     ```csharp
 	//Before
-	var openaiService = new OpenAIService(httpClient, options);
+	var openAiService = new OpenAIService(httpClient, options);
 	//Now
-	var openaiService = new OpenAIService(options, httpClient);
+	var openAiService = new OpenAIService(options, httpClient);
 	```
 ### 6.8.6
 - Updated Azure OpenAI default API version to the preview version to support ChatGPT. thanks to all [issue reporters](https://github.com/betalgo/openai/issues/181)

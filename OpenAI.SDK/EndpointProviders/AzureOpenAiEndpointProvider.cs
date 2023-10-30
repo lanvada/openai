@@ -1,4 +1,5 @@
 using System.Net;
+using OpenAI.ObjectModels.RequestModels;
 
 namespace OpenAI.EndpointProviders;
 
@@ -59,12 +60,12 @@ internal class AzureOpenAIEndpointProvider : IOpenAIEndpointProvider
 
     public string FileRetrieve(string fileId)
     {
-        return $"/{Prefix}/files/{fileId}{QueryString}";
+        return $"{Prefix}/files/{fileId}{QueryString}";
     }
 
     public string FileRetrieveContent(string fileId)
     {
-        return $"/{Prefix}/files/{fileId}/content{QueryString}";
+        return $"{Prefix}/files/{fileId}/content{QueryString}";
     }
 
     public string FineTuneCreate()
@@ -95,6 +96,53 @@ internal class AzureOpenAIEndpointProvider : IOpenAIEndpointProvider
     public string FineTuneDelete(string fineTuneId)
     {
         return $"{Prefix}/models/{fineTuneId}{QueryString}";
+    }
+
+    public string FineTuningJobCreate()
+    {
+        return $"{Prefix}/fine_tuning/jobs{QueryString}";
+    }
+
+    public string FineTuningJobList(FineTuningJobListRequest? fineTuningJobListRequest)
+    {
+        var url = $"{Prefix}/fine_tuning/jobs";
+        if (fineTuningJobListRequest != null)
+        {
+            var queryParams = new List<string>();
+            if (fineTuningJobListRequest.After != null)
+                queryParams.Add($"after={WebUtility.UrlEncode(fineTuningJobListRequest.After)}");
+            if (fineTuningJobListRequest.Limit.HasValue)
+                queryParams.Add($"limit={fineTuningJobListRequest.Limit.Value}");
+        
+            if (queryParams.Any())
+                url = $"{url}{QueryString}&{string.Join("&", queryParams)}";
+        }
+        return url;
+    }
+
+    public string FineTuningJobList()
+    {
+        return $"{Prefix}/fine_tuning/jobs{QueryString}";
+    }
+
+    public string FineTuningJobRetrieve(string fineTuningJobId)
+    {
+        return $"{Prefix}/fine_tuning/jobs/{fineTuningJobId}{QueryString}";
+    }
+
+    public string FineTuningJobCancel(string fineTuningJobId)
+    {
+        return $"{Prefix}/fine_tuning/jobs/{fineTuningJobId}/cancel{QueryString}";
+    }
+
+    public string FineTuningJobListEvents(string fineTuningJobId)
+    {
+        return $"{Prefix}/fine_tuning/jobs/{fineTuningJobId}/events{QueryString}";
+    }
+
+    public string ModelsDelete(string modelId)
+    {
+        return $"{Prefix}/models/{modelId}{QueryString}";
     }
 
     public string EmbeddingCreate()
@@ -129,12 +177,12 @@ internal class AzureOpenAIEndpointProvider : IOpenAIEndpointProvider
 
     public string AudioCreateTranscription()
     {
-        return $"/{Prefix}/audio/transcriptions{QueryString}";
+        return $"{Prefix}/audio/transcriptions{QueryString}";
     }
 
     public string AudioCreateTranslation()
     {
-        return $"/{Prefix}/audio/translation{QueryString}";
+        return $"{Prefix}/audio/translation{QueryString}";
     }
 
     private string Files()
