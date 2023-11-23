@@ -3,7 +3,7 @@ using OpenAI.ObjectModels.SharedModels;
 
 namespace OpenAI.ObjectModels.RequestModels;
 
-public record AudioCreateSpeechRequest : IOpenAiModels.IModel
+public record AudioCreateSpeechRequest : IOpenAIModels.IModel
 {
     /// <summary>
     ///     ID of the model to use. One of the available TTS models: tts-1 or tts-1-hd
