@@ -185,6 +185,11 @@ internal class AzureOpenAIEndpointProvider : IOpenAIEndpointProvider
         return $"{Prefix}/audio/translation{QueryString}";
     }
 
+    public string AudioCreateSpeech()
+    {
+        return $"{Prefix}/audio/speech{QueryString}";
+    }
+
     private string Files()
     {
         return $"{Prefix}/files{QueryString}";
